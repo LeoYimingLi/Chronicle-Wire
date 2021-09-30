@@ -13,6 +13,7 @@ import java.io.StringWriter;
 
 import static net.openhft.chronicle.wire.DynamicEnum.updateEnum;
 import static org.junit.Assert.*;
+import java.util.Arrays;
 
 public class WireDynamicEnumTest extends WireTestCommon {
     @Before
@@ -47,7 +48,7 @@ public class WireDynamicEnumTest extends WireTestCommon {
 
         nums.push2(ace);
 
-        assertEquals("push: ONE\n" +
+        String[] expected = ("push: ONE\n" +
                 "...\n" +
                 "unwraps: {\n" +
                 "  c: !WDENums {\n" +
@@ -73,7 +74,11 @@ public class WireDynamicEnumTest extends WireTestCommon {
                 "}\n" +
                 "...\n" +
                 "push2: ACE\n" +
-                "...\n", tw.toString());
+                "...\n").split("\n|,");
+        Arrays.sort(expected);
+        String[] twToString = tw.toString().split("\n|,");
+        Arrays.sort(twToString);
+        assertTrue(Arrays.toString(expected).equals(Arrays.toString(twToString)));
     }
 
     @Test
